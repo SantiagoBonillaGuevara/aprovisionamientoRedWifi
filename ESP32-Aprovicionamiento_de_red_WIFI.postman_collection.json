@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "6d376aca-dcdd-4b23-97a6-8127532692b0",
+		"name": "ESP32-Aprovicionamiento_de_red_WIFI",
+		"description": "Contenedor para tus request dAprovisionamiento de red WIF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30636315"
+	},
+	"item": [
+		{
+			"name": "GET status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{ESP32_IP}}/status",
+					"protocol": "http",
+					"host": [
+						"{{ESP32_IP}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{ESP32_IP}}/status",
+							"protocol": "http",
+							"host": [
+								"{{ESP32_IP}}"
+							],
+							"path": [
+								"status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "63"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"connected\": true,\n    \"ssid\": \"Danna’s iPhone\",\n    \"ip\": \"172.20.10.2\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GET scan",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ESP32_IP}}/scan",
+					"protocol": "http",
+					"host": [
+						"{{ESP32_IP}}"
+					],
+					"path": [
+						"scan"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET scan",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{ESP32_IP}}/scan",
+							"protocol": "http",
+							"host": [
+								"{{ESP32_IP}}"
+							],
+							"path": [
+								"scan"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "132"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    \"Danna’s iPhone\",\n    \"Estudiante-USabana\",\n    \"Invitado-USabana\",\n    \"DIRECT-1GqGnEB46ECD1GO9W\",\n    \"Invitados_GR\",\n    \"Galaxy S20+ Gabriela Duarte\"\n]"
+				}
+			]
+		},
+		{
+			"name": "GET forget",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{ESP32_IP}}/forget",
+					"protocol": "http",
+					"host": [
+						"{{ESP32_IP}}"
+					],
+					"path": [
+						"forget"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET forget",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{ESP32_IP}}/forget",
+							"protocol": "http",
+							"host": [
+								"{{ESP32_IP}}"
+							],
+							"path": [
+								"forget"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						},
+						{
+							"key": "Content-Length",
+							"value": "37"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "Credenciales borradas. Reiniciando..."
+				}
+			]
+		}
+	]
+}

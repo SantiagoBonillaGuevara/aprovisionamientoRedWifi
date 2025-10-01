@@ -1,0 +1,223 @@
+openapi: 3.0.3
+info:
+  title: ESP32 WiFi Provisioning API
+  version: 1.0.0
+  description: >
+    API para la configuración dinámica de WiFi en un ESP32 (portal de configuración).
+    Endpoints implementados en el sketch Arduino provisto por el usuario.
+servers:
+  - url: "http://{ESP32_IP}"
+    description: Direccion IP del ESP32 (AP o STA)
+    variables:
+      ESP32_IP:
+        default: "192.168.4.1"
+        description: "Reemplazar por la IP del ESP32 o usar la variable de entorno en Postman"
+paths:
+
+  /:
+    get:
+      summary: Página principal (interfaz web - HTML)
+      description: Devuelve la página HTML de configuración (SPA).
+      responses:
+        '200':
+          description: HTML con la interfaz para escanear y conectar.
+          content:
+            text/html:
+              schema:
+                type: string
+              examples:
+                index:
+                  summary: Fragmento HTML
+                  value: "<!doctype html>... (interfaz de configuración)"
+
+  /status:
+    get:
+      summary: Estado WiFi actual
+      description: Indica si el dispositivo está conectado y cuál es el SSID/IP.
+      responses:
+        '200':
+          description: Estado actual del WiFi (JSON).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+              examples:
+                connected_example:
+                  summary: Ejemplo (Postman)
+                  value:
+                    connected: true
+                    ssid: "Danna’s iPhone"
+                    ip: "172.20.10.2"
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+
+  /scan:
+    get:
+      summary: Escanear redes WiFi disponibles
+      description: Realiza un escaneo y devuelve un array con los SSID detectados.
+      responses:
+        '200':
+          description: Lista de SSID (JSON array).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              examples:
+                example_postman:
+                  summary: Ejemplo (Postman)
+                  value:
+                    - "Danna’s iPhone"
+                    - "Estudiante-USabana"
+                    - "Invitado-USabana"
+                    - "DIRECT-1GqGnEB46ECD1GO9W"
+                    - "Invitados_GR"
+                    - "Galaxy S20+ Gabriela Duarte"
+        '500':
+          description: Error durante el escaneo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+
+  /connect:
+    post:
+      summary: Intentar conectar y guardar credenciales
+      description: >
+        Recibe JSON `{ "ssid": "...", "pass": "..." }`. Intenta conectar con esas
+        credenciales; si conecta, guarda en memoria no volátil y devuelve la IP.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectRequest'
+            examples:
+              req_example:
+                summary: Ejemplo de request
+                value:
+                  ssid: "MiRed"
+                  pass: "mi_contraseña"
+      responses:
+        '200':
+          description: Respuesta de intento de conexión (tanto éxito como fallo se devuelven 200 en el código actual).
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ConnectSuccess'
+                  - $ref: '#/components/schemas/ConnectFail'
+              examples:
+                success:
+                  summary: Conexión exitosa (Postman/code)
+                  value:
+                    success: true
+                    ip: "172.20.10.2"
+                fail:
+                  summary: No se pudo conectar
+                  value:
+                    success: false
+                    message: "No se pudo conectar con esas credenciales"
+        '400':
+          description: Bad Request (por ejemplo SSID vacío)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectFail'
+              examples:
+                missing_ssid:
+                  value:
+                    success: false
+                    message: "SSID vacío"
+        '405':
+          description: Método no permitido (si no se usa POST)
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                method_not_allowed:
+                  value: "Usar POST con JSON {ssid, pass}"
+
+  /forget:
+    get:
+      summary: Borrar credenciales guardadas y reiniciar
+      description: Borra credenciales en memoria no volátil y reinicia el ESP.
+      responses:
+        '200':
+          description: Mensaje de confirmación (text/plain), el dispositivo se reiniciará.
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                postman_body:
+                  value: "Credenciales borradas. Reiniciando..."
+        '500':
+          description: Error al borrar credenciales
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMsg'
+
+components:
+  schemas:
+    StatusResponse:
+      type: object
+      properties:
+        connected:
+          type: boolean
+        ssid:
+          type: string
+          description: Nombre de la red si está conectado.
+        ip:
+          type: string
+          format: ipv4
+      required:
+        - connected
+        - ssid
+        - ip
+
+    ConnectRequest:
+      type: object
+      properties:
+        ssid:
+          type: string
+          description: Nombre de la red WiFi
+        pass:
+          type: string
+          description: Contraseña de la red (vacío para redes abiertas)
+      required:
+        - ssid
+
+    ConnectSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum: [true]
+        ip:
+          type: string
+          description: IP asignada al ESP después de conectarse.
+
+    ConnectFail:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum: [false]
+        message:
+          type: string
+
+    ErrorMsg:
+      type: object
+      properties:
+        error:
+          type: string
+
+security: []  # API local de configuración; por defecto no requiere auth. Si lo deseas, añade seguridad.
