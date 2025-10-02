@@ -11,7 +11,7 @@ servers:
     variables:
       ESP32_IP:
         default: "192.168.4.1"
-        description: "Reemplazar por la IP del ESP32 o usar la variable de entorno en Postman"
+        description: "Reemplazar por la IP del ESP32 o usar la variable de entorno en Postman (La IP que se muestra es una de ejemplo, la IP de la ESP es la que suelta el serialPrint al momento de correr el codigo)"
 paths:
 
   /:
