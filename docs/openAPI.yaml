@@ -4,7 +4,6 @@ info:
   version: 1.0.0
   description: >
     API para la configuración dinámica de WiFi en un ESP32 (portal de configuración).
-    Endpoints implementados en el sketch Arduino provisto por el usuario.
 servers:
   - url: "http://{ESP32_IP}"
     description: Direccion IP del ESP32 (AP o STA)
