@@ -1,4 +1,7 @@
 # ESP32 - Aprovisionamiento de Red WiFi
+## Integrantes de trabajo
+- Danna Alejandra Sanchez Monsalve
+- Juan Pablo Vargas Jimenez
 
 Este proyecto implementa un **captive portal en un ESP32** que permite aprovisionar la conexión WiFi de manera sencilla.  
 El dispositivo levanta un **Access Point (AP)** y un **servidor HTTP**, mostrando una página web de configuración donde el usuario puede:
