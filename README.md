@@ -95,14 +95,18 @@ Request body:
 
 
 ## Diagramas
-Diagrama de componentes
-(colocar aquí el diagrama de cómo se relacionan ESP32, AP, usuario y WiFi real)
+
+### Diagrama de componentes
+
+![diagramaDeComponentes](https://github.com/user-attachments/assets/39a2c1c7-9cd6-4ef2-90fa-6c2d14a8b0ae)
 
 ### Diagrama de estados
-(colocar aquí el flujo: arranque → conectar con credenciales → fallback a AP → reintentos → reconexión)
+
+![DiagramaDeEstados](https://github.com/user-attachments/assets/e72f9932-9ffa-4ffb-b51e-0e7829f06a92)
 
 ### Diagrama de secuencias
-(colocar aquí el intercambio: cliente web → ESP32 → conexión WiFi → respuesta JSON)
+
+![diagramaUmlDeSecuencia](https://github.com/user-attachments/assets/42fe364e-a9fb-4d18-8f88-087d5750e6ec)
 
 ## Conversaciones con ChatGPT
 Parte de la documentación y el diseño de la API fueron asistidos con ChatGPT.
